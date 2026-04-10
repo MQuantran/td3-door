@@ -3,22 +3,32 @@ import numpy as np
 from torch.utils.tensorboard import SummaryWriter
 import robosuite as suite
 from robosuite.wrappers import GymWrapper
-from robosuite.controllers.composite.composite_controller_factory import (
-    refactor_composite_controller_config,
-)
 
 from td3_torch import Agent
 
 
 def _joint_velocity_config():
-    """Build a composite controller config with JOINT_VELOCITY for the Panda arm.
+    """Composite controller config with JOINT_VELOCITY for the Panda arm.
 
-    robosuite 1.4+ uses composite controllers. A raw part-controller config
-    must be wrapped with refactor_composite_controller_config before passing
-    it to suite.make().
+    robosuite 1.5 uses composite controllers. Build the config dict directly —
+    do NOT use refactor_composite_controller_config(); it triggers a read-only
+    property setter error on JointVelocityController.
     """
-    part_cfg = suite.load_part_controller_config(default_controller='JOINT_VELOCITY')
-    return refactor_composite_controller_config(part_cfg, 'Panda', ['right'])
+    return {
+        "type": "BASIC",
+        "body_parts": {
+            "right_arm": {
+                "type": "JOINT_VELOCITY",
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
+                "output_min": [-2.0, -2.0, -2.0, -2.0, -2.0, -2.0, -2.0],
+                "kp": 100,
+                "velocity_limits": [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
+            },
+            "gripper": {"type": "GRIP"},
+        },
+    }
 
 
 def make_env(has_renderer=False):

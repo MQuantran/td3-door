@@ -5,16 +5,26 @@ Run this separately from main.py (it does NOT save or update any models).
 import time
 import robosuite as suite
 from robosuite.wrappers import GymWrapper
-from robosuite.controllers.composite.composite_controller_factory import (
-    refactor_composite_controller_config,
-)
 
 from td3_torch import Agent
 
 
 def _joint_velocity_config():
-    part_cfg = suite.load_part_controller_config(default_controller='JOINT_VELOCITY')
-    return refactor_composite_controller_config(part_cfg, 'Panda', ['right'])
+    return {
+        "type": "BASIC",
+        "body_parts": {
+            "right_arm": {
+                "type": "JOINT_VELOCITY",
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
+                "output_min": [-2.0, -2.0, -2.0, -2.0, -2.0, -2.0, -2.0],
+                "kp": 100,
+                "velocity_limits": [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
+            },
+            "gripper": {"type": "GRIP"},
+        },
+    }
 
 
 def make_env():

@@ -57,11 +57,21 @@ env = None
 def make_env():
     import robosuite as suite
     from robosuite.wrappers import GymWrapper
-    from robosuite.controllers.composite.composite_controller_factory import (
-        refactor_composite_controller_config,
-    )
-    part_cfg = suite.load_part_controller_config(default_controller='JOINT_VELOCITY')
-    ctrl_cfg = refactor_composite_controller_config(part_cfg, 'Panda', ['right'])
+    ctrl_cfg = {
+        "type": "BASIC",
+        "body_parts": {
+            "right_arm": {
+                "type": "JOINT_VELOCITY",
+                "input_max": 1.0,
+                "input_min": -1.0,
+                "output_max": [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
+                "output_min": [-2.0, -2.0, -2.0, -2.0, -2.0, -2.0, -2.0],
+                "kp": 100,
+                "velocity_limits": [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
+            },
+            "gripper": {"type": "GRIP"},
+        },
+    }
     e = suite.make(
         'Door',
         robots='Panda',
