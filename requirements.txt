@@ -1,0 +1,21 @@
+# ── Core ──────────────────────────────────────────────────────────────────────
+# robosuite 1.5+ (MuJoCo is bundled as a dependency, no separate install needed)
+robosuite>=1.4.0
+
+# Gymnasium replaces the old OpenAI gym (the video used gym==0.23.0)
+# robosuite's GymWrapper auto-detects gymnasium vs legacy gym
+gymnasium>=0.29.0
+
+numpy>=1.24.0
+matplotlib>=3.8.0
+tensorboard>=2.15.0
+h5py>=3.10.0
+
+# ── PyTorch (CUDA) ─────────────────────────────────────────────────────────────
+# The lines below install the CUDA 12.8 build of PyTorch 2.x.
+# If you don't have an NVIDIA GPU, remove --extra-index-url and the three torch lines,
+# then just run:  pip install torch torchvision torchaudio
+--extra-index-url https://download.pytorch.org/whl/cu128
+torch
+torchvision
+torchaudio

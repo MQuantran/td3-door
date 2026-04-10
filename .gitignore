@@ -1,0 +1,29 @@
+# Trained model checkpoints (can be large — don't commit)
+tmp/
+
+# TensorBoard logs
+logs/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Environments
+.env
+.venv
+env/
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
