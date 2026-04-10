@@ -5,17 +5,23 @@ Run this separately from main.py (it does NOT save or update any models).
 import time
 import robosuite as suite
 from robosuite.wrappers import GymWrapper
+from robosuite.controllers.composite.composite_controller_factory import (
+    refactor_composite_controller_config,
+)
 
 from td3_torch import Agent
+
+
+def _joint_velocity_config():
+    part_cfg = suite.load_part_controller_config(default_controller='JOINT_VELOCITY')
+    return refactor_composite_controller_config(part_cfg, 'Panda', ['right'])
 
 
 def make_env():
     env = suite.make(
         'Door',
         robots='Panda',
-        controller_configs=suite.load_part_controller_config(
-            default_controller='JOINT_VELOCITY'
-        ),
+        controller_configs=_joint_velocity_config(),
         has_renderer=True,
         has_offscreen_renderer=True,
         use_camera_obs=False,

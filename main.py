@@ -3,8 +3,22 @@ import numpy as np
 from torch.utils.tensorboard import SummaryWriter
 import robosuite as suite
 from robosuite.wrappers import GymWrapper
+from robosuite.controllers.composite.composite_controller_factory import (
+    refactor_composite_controller_config,
+)
 
 from td3_torch import Agent
+
+
+def _joint_velocity_config():
+    """Build a composite controller config with JOINT_VELOCITY for the Panda arm.
+
+    robosuite 1.4+ uses composite controllers. A raw part-controller config
+    must be wrapped with refactor_composite_controller_config before passing
+    it to suite.make().
+    """
+    part_cfg = suite.load_part_controller_config(default_controller='JOINT_VELOCITY')
+    return refactor_composite_controller_config(part_cfg, 'Panda', ['right'])
 
 
 def make_env(has_renderer=False):
@@ -12,9 +26,7 @@ def make_env(has_renderer=False):
     env = suite.make(
         'Door',
         robots='Panda',
-        controller_configs=suite.load_part_controller_config(
-            default_controller='JOINT_VELOCITY'
-        ),
+        controller_configs=_joint_velocity_config(),
         has_renderer=has_renderer,
         use_camera_obs=False,   # no pixel observations; state-based only
         horizon=300,            # episode length sweet spot for this task

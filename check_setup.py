@@ -57,11 +57,15 @@ env = None
 def make_env():
     import robosuite as suite
     from robosuite.wrappers import GymWrapper
+    from robosuite.controllers.composite.composite_controller_factory import (
+        refactor_composite_controller_config,
+    )
+    part_cfg = suite.load_part_controller_config(default_controller='JOINT_VELOCITY')
+    ctrl_cfg = refactor_composite_controller_config(part_cfg, 'Panda', ['right'])
     e = suite.make(
         'Door',
         robots='Panda',
-        controller_configs=suite.load_part_controller_config(
-            default_controller='JOINT_VELOCITY'),
+        controller_configs=ctrl_cfg,
         has_renderer=False,
         use_camera_obs=False,
         horizon=300,
