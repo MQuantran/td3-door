@@ -13,7 +13,7 @@ def _joint_velocity_config():
     return {
         "type": "BASIC",
         "body_parts": {
-            "right_arm": {
+            "right": {
                 "type": "JOINT_VELOCITY",
                 "input_max": 1.0,
                 "input_min": -1.0,

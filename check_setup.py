@@ -60,7 +60,7 @@ def make_env():
     ctrl_cfg = {
         "type": "BASIC",
         "body_parts": {
-            "right_arm": {
+            "right": {
                 "type": "JOINT_VELOCITY",
                 "input_max": 1.0,
                 "input_min": -1.0,
