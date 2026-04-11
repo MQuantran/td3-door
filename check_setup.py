@@ -4,8 +4,8 @@ Each check prints PASS or FAIL with a reason.
 """
 import sys
 
-PASS = '\u2713 PASS'
-FAIL = '\u2717 FAIL'
+PASS = '[PASS]'
+FAIL = '[FAIL]'
 
 
 def check(label, fn):
@@ -62,12 +62,15 @@ def make_env():
         "body_parts": {
             "right": {
                 "type": "JOINT_VELOCITY",
-                "input_max": 1.0,
-                "input_min": -1.0,
-                "output_max": [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
-                "output_min": [-2.0, -2.0, -2.0, -2.0, -2.0, -2.0, -2.0],
-                "kp": 100,
-                "velocity_limits": [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
+                "input_max": 1,
+                "input_min": -1,
+                "output_max": 0.5,
+                "output_min": -0.5,
+                "kp": 3.0,
+                "velocity_limits": [-1, 1],
+                "interpolation": None,
+                "ramp_ratio": 0.2,
+                "gripper": {"type": "GRIP"},
             },
         },
     }
