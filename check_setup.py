@@ -69,7 +69,6 @@ def make_env():
                 "kp": 100,
                 "velocity_limits": [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
             },
-            "gripper": {"type": "GRIP"},
         },
     }
     e = suite.make(

@@ -22,7 +22,6 @@ def _joint_velocity_config():
                 "kp": 100,
                 "velocity_limits": [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
             },
-            "gripper": {"type": "GRIP"},
         },
     }
 
